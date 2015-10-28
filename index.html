@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>Meals Bits&Bytes</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script src="script.js"></script>
+  </head>
+
+  <body onload = "init()">
+
+    <canvas id="canvas" height="400" width="800" style="background:#87CEFA;">
+        <p>Canvas not supported!</p>
+    </canvas>
+
+<form action="mealview.php" method="get">
+      <fieldset>
+        <legend>Meals Planner Login</legend>
+            <p class="fields">
+                <div class="row">
+                    <label for="first_name">First Name</label>
+                    <input type="text"
+                           id = "first_name" name="first_name" class="field-large" />
+                </div>
+
+                <div class="row">
+                    <label for="last_name">Last Name</label>
+                    <input type="text"
+                           id = "last_name" name="last_name" class="field-large" />
+                </div>
+
+
+                <p class="row">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" id="email"
+                           placeholder="yourname@example.com"
+                            class="field-large"/>
+                </p>
+                <p>
+                <input type="submit" class="btn" value="Submit" onclick="validate()";>
+                </p>
+            </div>
+        </fieldset>
+        </form>
+  </body>
+</html>
