@@ -8,12 +8,12 @@
         
         function hideItems()
         {
-        	document.getElementById("items").style.visibility = "hidden";
+            document.getElementById("items").style.visibility = "hidden";
         }
         
-    	function showItems()
+        function showItems()
         {
-        	document.getElementById("items").style.visibility = "visible";
+            document.getElementById("items").style.visibility = "visible";
         }
         
         function changeItemsColor(color)
@@ -28,7 +28,7 @@
         
         function reloadPage()
         {
-        	location.reload();
+            location.reload();
         }
         
     </script>
@@ -76,25 +76,33 @@
 
             try
             {
-                $con = new PDO("mysql:host=127.0.0.1;dbname=bitsnbytes", "root", "password");
+                $con = new PDO("mysql:host=127.0.0.1;dbname=bitsnbytes", "root", "starsh1p");
                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 if(strlen($email) > 0)
                 {
-                    $emailQuery = "SELECT id FROM Users WHERE email = '$email'";
-                    $emailStmt = $con->query($emailQuery);
+                    $emailQuery = "SELECT id FROM Users WHERE email = :email";
+                    $emailStmt = $con->prepare($emailQuery);
+                    $emailStmt->bindParam(':email', $email);
+                    $emailStmt->execute();
                     $userId = $emailStmt -> fetchColumn(0);
                     if ($userId == false) 
                     {
                         $insertQuery = "INSERT INTO Users ".
-                         "VALUES (NULL, '$first', '$last', '$email')";
-                         $con->query($insertQuery);
+                         "VALUES (NULL, :first, :last, :email)";
+                         $con->prepare($insertQuery);
+                         $con->bindParam(':first', $first);
+                         $con->bindParam(':last', $last);
+                         $con->bindParam(':email', $email);
+                         $con->execute();
                     
                     
                     $usrquery = "SELECT id ".
                              "FROM Users ".
-                             "WHERE Users.email = '$email' ";
+                             "WHERE Users.email = :email";
                              
-                             $usrStmt = $con->query($usrquery);
+                             $usrStmt = $con->prepare($usrquery);
+                             $usrStmt->bindParam(':email', $email);
+                             $usrStmt->execute();
                     $userId = $usrStmt -> fetchColumn(0);
                     }
                 }
