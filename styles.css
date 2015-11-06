@@ -69,3 +69,17 @@ td {
     width: 75px;
     padding: 10px;
 }
+
+.target{
+    float: right;
+    border:#c0c0c0 solid;
+    margin-left: auto;
+    width:400px;
+    height: 400px;
+
+}
+
+#accordion{
+    text-align: center;
+    display: inline-block;
+}

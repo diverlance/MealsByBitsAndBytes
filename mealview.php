@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Meals by Bits&Bytes</title>
+    <link rel="stylesheet" href="jquery-ui.css">
+    <script src="script.js"></script>
+    <script src="external/jquery/jquery.js"></script>
     <script type="text/javascript">
         
         function hideItems()
@@ -30,7 +33,7 @@
         {
         	location.reload();
         }
-        
+
     </script>
 
 
@@ -51,7 +54,7 @@
 
             try
             {
-                $con = new PDO("mysql:host=localhost;dbname=bitsnbytes", "root", "G0Sharks");
+                $con = new PDO("mysql:host=localhost;dbname=bitsnbytes", "root", "mybirthdayis0212");
                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 if(strlen($email) > 0)
                 {
@@ -146,6 +149,8 @@
     </p>
     <form action="">
         <fieldset>
+            <div id="accordion">
+                <h3>BUTTONS</h3>
             <legend>Interactive buttons</legend>
             <p>
                 <input type="button" value="Hide Meal Items"
@@ -167,12 +172,17 @@
                 <input type="button" value="Reload Page"
                        onclick="reloadPage()" />      
             </p>
-        
 
+            </div>
           
         </fieldset>
     </form>
 
-    
+    <script>
+        $(document).ready(function(){
+            $("#date").datepicker();
+            $("#accordion").accordion();
+            });
+    </script>
 </body>
 </html>

@@ -54,6 +54,13 @@ function init()
     image = new Image();
     image.src = "http://www.classic-computers.org.nz/bits-and-bytes/logo.jpg";
     setInterval(draw, 50);
+
+    $("#accordion").accordion();
+    $("#datepicker").datepicker();
+    $(".drag").draggable();
+    $(".target").droppable();
+
+
 }
 
 function draw()
@@ -66,3 +73,5 @@ function draw()
     if ((x < 0) || (x > RIGHT))  dx = -dx;
     if ((y < 0) || (y > BOTTOM)) dy = -dy;
 }
+
+
