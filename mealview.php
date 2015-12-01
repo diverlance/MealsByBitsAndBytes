@@ -4,19 +4,17 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <title>Meals by Bits&Bytes</title>
-    <link rel="stylesheet" href="jquery-ui.css">
-    <script src="script.js"></script>
     <script src="external/jquery/jquery.js"></script>
     <script type="text/javascript">
         
         function hideItems()
         {
-        	document.getElementById("items").style.visibility = "hidden";
+            document.getElementById("items").style.visibility = "hidden";
         }
         
-    	function showItems()
+        function showItems()
         {
-        	document.getElementById("items").style.visibility = "visible";
+            document.getElementById("items").style.visibility = "visible";
         }
         
         function changeItemsColor(color)
@@ -31,61 +29,131 @@
         
         function reloadPage()
         {
-        	location.reload();
+            location.reload();
         }
-
+        
     </script>
+<script>
+      $(function () {
 
+        $('#add_meal').on('submit', function (e) {
+
+          e.preventDefault();
+
+          var data = $('#add_meal').serialize();
+
+          $.ajax({
+            type: 'get',
+            url: 'addMeal.php',
+            data: data
+          });
+        });
+
+      });
+    </script>
 
 </head>
 
 <body>
 
-    
     <p>
         <?php
+            class food {
+            private $Name;
+            private $Type;
+            private $Calories;
+            public function getName() { return $this->Name; }
+            public function getType() { return $this->Type; }
+            public function getCalories() { return $this->Calories; }
+            }
+            class meal {
+            private $Meal;
+            private $Category;
+            private $Comments;
+            public function getMealName() { return $this->Meal; }
+            public function getCategory() { return $this->Category; }
+            public function getComments() { return $this->Comments; }
+            }
+
             $first = filter_input(INPUT_GET, "first_name");
             $last  = filter_input(INPUT_GET, "last_name");
             $email = filter_input(INPUT_GET, "email");
            
-			echo "<h1 class='title'>Meals by BitsAndBytes</h1>";
-			echo "<hr>";
-			echo "<h2 class='add-member'>Meals for " . $first . " " . $last . "</h3>";
-
+            echo "<h1 class='title'>Meals by BitsAndBytes</h1>";
+            echo "<hr>";
+            echo "<div class='add_meal'>";
+            echo "<form id='add_meal' action='addMeal.php' method='get'>";
+            echo "<p class='fields'> <div class='row'>";
+            echo "<label for='foodName'>Food Name</label>";
+            echo "<input type='text' name='foodName'/>";
+            echo "</div>";
+            echo "<div class='row'>";
+            echo "<label for='servings'>Servings</label>";
+            echo "<input type='text' name='servings'/>";
+            echo "</div>";
+            echo "<div class='row'>";
+            echo "<label for='foodType'>Time</label>";
+            echo "<select name='foodType'>";
+            echo "<option value='1'>Breakfast</option>";
+            echo "<option value='2'>Lunch</option>";
+            echo "<option value='5'>Snack</option>";
+            echo "<option value='4'>Dinner</option>";
+            echo "</select>";
+            echo "</div>";
+            echo "<div class='row'>";
+            echo "<label for='comments'>Comments</label>";
+            echo "<input type='text' name='comments'/>";
+            echo "</div>";
+            echo "<input type='submit' value='Add' onclick='reloadPage()'/>";
+            echo "</form>";
+            echo "</div>";
+            echo "<h2 class='add-member'>Meals for " . $first . " " . $last . "</h3>";
+            
             try
             {
-                $con = new PDO("mysql:host=localhost;dbname=bitsnbytes", "root", "mybirthdayis0212");
+                $con = new PDO("mysql:host=127.0.0.1;dbname=bitsnbytes", "root", "password");
                 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
                 if(strlen($email) > 0)
                 {
-                	$emailQuery = "SELECT id FROM Users WHERE email = '$email'";
-                	$emailStmt = $con->query($emailQuery);
-                	$userId = $emailStmt -> fetchColumn(0);
-                	if ($userId == false) 
-                	{
-                		$insertQuery = "INSERT INTO Users ".
-                		 "VALUES (NULL, '$first', '$last', '$email')";
-                		 $con->query($insertQuery);
-                	
-                	
-                	$usrquery = "SELECT id ".
-							 "FROM Users ".
-							 "WHERE Users.email = '$email' ";
-							 
-							 $usrStmt = $con->query($usrquery);
-                	$userId = $usrStmt -> fetchColumn(0);
-					}
+                    $emailQuery = "SELECT id FROM Users WHERE email = :email";
+                    $emailStmt = $con->prepare($emailQuery);
+                    $emailStmt->bindParam(':email', $email);
+                    $emailStmt->execute();
+                    $userId = $emailStmt -> fetchColumn(0);
+                    if ($userId == false) 
+                    {
+                        $insertQuery = "INSERT INTO Users ".
+                         "VALUES (NULL, :first, :last, :email)";
+                         $con->prepare($insertQuery);
+                         $con->bindParam(':first', $first);
+                         $con->bindParam(':last', $last);
+                         $con->bindParam(':email', $email);
+                         $con->execute();
+                    
+                    
+                    $usrquery = "SELECT id ".
+                             "FROM Users ".
+                             "WHERE Users.email = :email";
+                             
+                             $usrStmt = $con->prepare($usrquery);
+                             $usrStmt->bindParam(':email', $email);
+                             $usrStmt->execute();
+                    $userId = $usrStmt -> fetchColumn(0);            
+                    }
                 }
-
-				if ($userId > 0)
-				{
+                if ($userId > 0)
+                {
+                $cookie_name = "id";
+                $cookie_value = $userId;
+                setCookie($cookie_name, $cookie_value, time() * 100, false);
                 $mealQuery = "SELECT Meal.name as 'Meal', Meal_Category.name as 'Category', Meal.comment as 'Comments' ".
-						 "FROM Meal, Meal_Category ".
-						 "WHERE Meal.user_id = $userId AND Meal_Category.id = Meal.category_id";
-				$itemQuery = "SELECT Food.name as 'Name of Item', Food_Type.name as 'Type of Food', Food.calories as 'Calories' ". 
-							 "FROM Meal, Meal_Item, Food, Food_Type ".
-							 "WHERE Meal.user_id = $userId AND Meal_Item.meal_id = Meal.id AND Food.id = Meal_Item.food_id ".
-							 "AND Food_Type.id = Food.type_id";
+                         "FROM Meal, Meal_Category ".
+                         "WHERE Meal.user_id =$userId AND Meal_Category.id = Meal.category_id";
+                $itemQuery = "SELECT Food.name as 'Name', Food_Type.name as 'Type', Food.calories as 'Calories' ". 
+                             "FROM Meal, Meal_Item, Food, Food_Type ".
+                             "WHERE Meal.user_id =$userId AND Meal_Item.meal_id = Meal.id AND Food.id = Meal_Item.food_id ".
+                             "AND Food_Type.id = Food.type_id";
+              
                 $mealdata = $con->query($mealQuery);
                 $mealdata->setFetchMode(PDO::FETCH_ASSOC);
                 print "<table border='1'>\n";
@@ -100,14 +168,16 @@
                             print "            <th>$name</th>\n";
                         }
                         print "        </tr>\n";
-
                         $doHeader = false;
                     }
+                }
+                $ms = $con->query($mealQuery);
+                $ms->setFetchMode(PDO::FETCH_CLASS, 'meal');
+                while ($mealitem = $ms->fetch()) {
                     print "            <tr onclick='SelectRow(1)' id='row_1,1'>\n";
-                    foreach ($row as $name => $value)
-                    {
-                        print "                <td>$value</td>\n";
-                    }
+                    print "            <td>" . $mealitem->getMealName()    . "</td>\n";
+                    print "            <td>" . $mealitem->getCategory()    . "</td>\n";
+                    print "            <td>" . $mealitem->getComments()    . "</td>\n";
                     print "            </tr>\n";
                 }
                 print "        </table>";
@@ -128,19 +198,22 @@
                             print "            <th>$name</th>\n";
                         }
                         print "        </tr>\n";
-
                         $doHeader = false;
                     }
                     print "            <tr>\n";
-                    foreach ($row as $name => $value)
-                    {
-                        print "                <td>$value</td>\n";
-                    }
+                }
+                $fs = $con->query($itemQuery);
+                $fs->setFetchMode(PDO::FETCH_CLASS, 'food');
+                while ($fooditem = $fs->fetch()) {
+                    print "            <tr onclick='SelectRow(1)' id='row_1,1'>\n";
+                    print "            <td>" . $fooditem->getName()    . "</td>\n";
+                    print "            <td>" . $fooditem->getType()    . "</td>\n";
+                    print "            <td>" . $fooditem->getCalories()    . "</td>\n";
                     print "            </tr>\n";
                 }
                 print "        </table>\n";
             }
-   		 }
+         }
             catch(PDOException $ex)
             {
                 echo 'ERROR: '.$ex->getMessage();
@@ -149,8 +222,6 @@
     </p>
     <form action="">
         <fieldset>
-            <div id="accordion">
-                <h3>BUTTONS</h3>
             <legend>Interactive buttons</legend>
             <p>
                 <input type="button" value="Hide Meal Items"
@@ -172,17 +243,7 @@
                 <input type="button" value="Reload Page"
                        onclick="reloadPage()" />      
             </p>
-
-            </div>
-          
         </fieldset>
     </form>
-
-    <script>
-        $(document).ready(function(){
-            $("#date").datepicker();
-            $("#accordion").accordion();
-            });
-    </script>
 </body>
 </html>
