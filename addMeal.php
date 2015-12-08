@@ -1,6 +1,6 @@
 <?php
-    
-    $con = new PDO("mysql:host=127.0.0.1;dbname=bitsnbytes", "root", "starsh1p");
+
+    $con = new PDO("mysql:host=127.0.0.1;dbname=bitsnbytes", "cs174", "qweasdzxc");
     $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $foodName = $_GET["foodName"];
     $comment = $_GET["comments"];
@@ -11,7 +11,7 @@
     $idCon->execute();
     $mealID = $idCon->fetchColumn(0);
     $mealID = $mealID + 1;
-    
+
     $insertSmt = "insert into meal values(:mealID, :foodName, :id, :category, :comment)";
     $insCon = $con->prepare($insertSmt);
     $insCon->bindParam(':mealID', $mealID);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Oct 15, 2015 at 08:23 AM
+-- Generation Time: Nov 14, 2015 at 10:03 AM
 -- Server version: 5.6.25
 -- PHP Version: 5.6.11
 
@@ -19,8 +19,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `bitsnbytes`
 --
-CREATE DATABASE IF NOT EXISTS `bitsnbytes` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
-USE `bitsnbytes`;
 
 -- --------------------------------------------------------
 
@@ -33,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `Food` (
   `name` varchar(128) NOT NULL,
   `type_id` int(11) NOT NULL,
   `calories` int(11) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Food`
@@ -43,7 +41,17 @@ INSERT INTO `Food` (`id`, `name`, `type_id`, `calories`) VALUES
 (1, 'Steak (8oz)', 1, 200),
 (2, 'Baked Potato (loaded)', 8, 500),
 (5, 'Grilled Salmon Filet', 5, 250),
-(6, 'Broccoli', 8, 125);
+(6, 'Broccoli', 8, 125),
+(7, 'Grilled Chicken', 2, 150),
+(8, 'Chicken Parmigiana', 2, 450),
+(9, 'Grilled Dumplings', 2, 250),
+(10, 'Fried Chicken Breasts', 2, 650),
+(11, 'Apples', 7, 50),
+(12, 'Peaches', 7, 100),
+(13, 'Grapes', 7, 75),
+(14, 'Strawberries', 7, 80),
+(15, 'Ney York Strip(12oz.)', 1, 500),
+(16, 'Maguro Sashimi', 5, 100);
 
 -- --------------------------------------------------------
 
@@ -54,7 +62,7 @@ INSERT INTO `Food` (`id`, `name`, `type_id`, `calories`) VALUES
 CREATE TABLE IF NOT EXISTS `Food_Type` (
   `id` int(11) NOT NULL,
   `name` varchar(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Food_Type`
@@ -143,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `first_name` varchar(64) NOT NULL,
   `last_name` varchar(64) NOT NULL,
   `email` varchar(128) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `Users`
@@ -153,7 +161,8 @@ INSERT INTO `Users` (`id`, `first_name`, `last_name`, `email`) VALUES
 (1, 'John', 'Smith', 'jsmith@test.com'),
 (2, 'Bob', 'Jones', 'bones@test.com'),
 (3, 'Bob', 'Marley', 'tuffgong@test.com'),
-(4, 'Joe', 'Shoo', 'jsmoo@test.com');
+(4, 'Joe', 'Shoo', 'jsmoo@test.com'),
+(5, 'Lance', 'Roberts', 'diverlance@hotmail.com');
 
 --
 -- Indexes for dumped tables
@@ -207,12 +216,12 @@ ALTER TABLE `Users`
 -- AUTO_INCREMENT for table `Food`
 --
 ALTER TABLE `Food`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `Food_Type`
 --
 ALTER TABLE `Food_Type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `Meal`
 --
@@ -227,7 +236,7 @@ ALTER TABLE `Meal_Category`
 -- AUTO_INCREMENT for table `Users`
 --
 ALTER TABLE `Users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -8,6 +8,10 @@ body {
     margin-top: 20px;
 }
 
+button{
+  font-family: Helvetica;
+}
+
 canvas {
     padding: 0;
     margin: auto;
@@ -29,7 +33,7 @@ label.name {
     display: block;
 }
 
-h1.title {
+h1 {
     text-align: center;
     margin-bottom: 50px;
 }
@@ -39,9 +43,9 @@ h2 {
 	margin-bottom: 20px;
 }
 
-h3 {
+h3
+{
 	text-align: center;
-	margin-bottom: 10px;
 }
 
 table, th, td {
@@ -82,4 +86,31 @@ td {
 #accordion{
     text-align: center;
     display: inline-block;
+}
+
+.login-box
+{
+  width:360px;
+  margin:7% auto
+}
+@media (max-width:768px)
+{
+  .login-box
+  {
+    width:90%;
+    margin-top:20px
+  }
+}
+
+.login-box-body
+{
+  background:#fff;
+  padding:20px;
+  border-top:0;
+  color:#666
+}
+
+.login-box-body
+{
+  color:#777
 }
