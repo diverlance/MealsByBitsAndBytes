@@ -16,6 +16,31 @@
   <link rel="stylesheet" type="text/css" href="styles.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <script type = "text/javascript">
+      function validateLogin()
+      {
+          email = document.getElementById("email").value;
+          password  = document.getElementById("password").value;
+
+          errors = "";
+
+          emailRE = /^.+@.+\..{2,4}$/;
+          if (!email.match(emailRE)){
+              errors += "Invalid email address. " +
+                        "Should be xxxxx@xxxxx.xxx\n";
+          }
+
+          if (password == "")
+          {
+              errors += "Password is missing.\n";
+          }
+
+          if (errors != "")
+          {
+            alert(errors);
+          }
+      }
+  </script>
 </head>
 <body>
   <div class="login-box">
@@ -48,15 +73,10 @@
               ?>
             </div>
             <div class="col-xs-4">
-              <button class="btn btn-primary btn-block btn-flat" id="Login" name="submit" type="submit">Submit</button>
+              <button class="btn btn-primary btn-block btn-flat" id="Login" name="submit" type="submit" onclick="validateLogin()">Submit</button>
             </div>
           </div> <!-- /.Login Button -->
-          <p class="text-center">- OR -</p>
-          <!-- Forget Password Button -->
         </form> <!-- /.loginForm -->
-        <div class="row">
-            <button class="btn btn-primary btn-block btn-flat">Forget Password</button>
-        </div> <!-- /.Forget Password Button -->
       </div>
     </div>
 
